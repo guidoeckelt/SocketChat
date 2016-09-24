@@ -1,0 +1,57 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta name="description" content="A Simple Socket Chat Example">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="utf-8">
+    <title>Socket Chat Example</title>
+    <link id="favicon" rel="icon" href="https://hyperdev.com/favicon.ico" type="image/x-icon">
+
+    <!-- StyleSheets -->
+    <link rel="stylesheet" href="/socketchat.css" />
+
+
+    <!-- External-Scripts -->
+    <script src="https://code.jquery.com/jquery-2.2.1.min.js" integrity="sha256-gvQgAFzTH6trSrAWoH1iPo9Xc96QxSZ3feW6kem+O00=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.4.0/knockout-min.js"></script>
+    <script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
+    <!-- Scripts -->
+    <!--<script src="/socket.io/socket.io.js"></script>-->
+    <script src="/socketchat.js"></script>
+
+    <!-- Loaded-Scripts-->
+
+</head>
+<body>
+<header class="header">
+
+</header>
+<main class="main">
+    <div class="list-container">
+        <div class="lobby-list">
+
+        </div>
+        <div class="message-list">
+
+        </div>
+    </div>
+    <div class="send-form">
+        <form>
+            <fieldset>
+                <label>Username:</label>
+                <input data-bind="textInput: $root.user" placeholder="Username"/>
+            </fieldset>
+            <fieldset>
+                <label></label>
+                <textarea data-bind="textInput: $root.messageContent" placeholder="Content"></textarea>
+            </fieldset>
+            <button data-bind="click: $root.sendMessage">Senden</button>
+        </form>
+    </div>
+</main>
+<footer class="footer">
+
+</footer>
+</body>
+</html>
