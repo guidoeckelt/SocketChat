@@ -8,7 +8,8 @@ var http = require('http').Server(app);
 var express = require('express');
 var io = require('socket.io')(http);
 
-var Chat = require("./lib/chat");
+var User = require("./lib/user");
+var Lobby = require("./lib/lobby");
 
 // http://expressjs.com/en/starter/static-files.html
 app.use(express.static('public'));
@@ -32,13 +33,28 @@ io.on('connection', function(socket){
     OnConnect(socket);
 });
 
-lobbys.push(new Chat.Lobby("Home"));
-lobbys.push(new Chat.Lobby("League of Legends"));
+lobbys.push(new Lobby("Home"));
 
 function OnConnect(socket){
     console.log('a socket connection established');
-    var user = new Chat.User(socket);
+    var user = new User(socket);
     users.push(user);
+    socket.on('login',function(loginDTO){
+
+    });
+    socket.on('lobby join',function(lobbyJoinDTO){
+
+    });
+    socket.on('lobby leave',function(lobbyLeaveDTO){
+
+    });
+    socket.on('lobby message', function(messageDTO){
+        //OnNewMessage(messageDTO);
+        console.log(messageDTO.user+': '+messageDTO.content);
+    });
+    socket.on('user rename',function(userRenameDTO){
+
+    });
     socket.on('disconnect', function(){
         console.log('a socket connection is closed');
         users.splice(users.indexOf(user),1);

@@ -14,9 +14,19 @@ function SocketChatViewModel(){
     self.user = ko.observable();
     self.messageContent = ko.observable();
 
-    self.sendMessage= function () {
+    self.login = function(){
+
+    };
+
+    self.joinLobby = function(){
+        socket.emit('lobby join',message);
+    };
+    self.leaveLobby = function(){
+        socket.emit('lobby leave',message);
+    };
+    self.sendLobbyMessage= function () {
         var message = { "user": self.user(), "content": self.messageContent()};
-        socket.emit('chat message',message);
+        socket.emit('lobby message',message);
     };
 
     self.init = function(){
@@ -25,6 +35,9 @@ function SocketChatViewModel(){
         socket.on('connect', function(socket) {
             console.log('Connected!');
         });
+        socket.on('disconnect',function () {
+            console.log('Disconnected!');
+        })
     };
 
 }
