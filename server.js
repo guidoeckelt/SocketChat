@@ -21,8 +21,8 @@ var listener = http.listen(3000, function () {
 
 //Socket Chat View
 var socketChatHtml = __dirname+'/views/socketchat.html';
-app.get("/", function (request, response) {
-  response.sendFile(socketChatHtml);
+app.get("/", function (request, response){
+    response.sendFile(socketChatHtml);
 });
 
 var users = new Array();
@@ -30,16 +30,20 @@ var lobbys = new Array();
 
 //Socket Connections
 io.on('connection', function(socket){
-    OnConnect(socket);
+    OnSocketConnect(socket);
 });
 
 lobbys.push(new Lobby("Home"));
 
-function OnConnect(socket){
+function OnSocketConnect(socket){
     console.log('a socket connection established');
     var user = new User(socket);
     users.push(user);
+    socket.on('login check',function(loginCheckDTO){
+
+    });
     socket.on('login',function(loginDTO){
+        user.setName(loginDTO.username);
 
     });
     socket.on('lobby join',function(lobbyJoinDTO){
@@ -48,19 +52,28 @@ function OnConnect(socket){
     socket.on('lobby leave',function(lobbyLeaveDTO){
 
     });
-    socket.on('lobby message', function(messageDTO){
-        //OnNewMessage(messageDTO);
-        console.log(messageDTO.user+': '+messageDTO.content);
+    socket.on('lobby switch',function(lobbySwitchDTO){
+
+    });
+    socket.on('lobby message', function(lobbyMessageDTO){
+        OnLobbyMessage(lobbyMessageDTO);
     });
     socket.on('user rename',function(userRenameDTO){
 
     });
     socket.on('disconnect', function(){
-        console.log('a socket connection is closed');
-        users.splice(users.indexOf(user),1);
+        OnDisconnect(user);
     });
 }
 
-function OnNewMessage(lobby, message){
-    console.log(message.user +': '+message.content);
+function OnLobbyMessage(lobbyMessageDTO){
+    console.log(lobbyMessageDTO.username+': '+lobbyMessageDTO.content);
+    for(var user of users){
+        user.onMessageReceived(lobbyMessageDTO);
+    }
+}
+
+function OnDisconnect(user) {
+    console.log('a socket connection is closed');
+    users.splice(users.indexOf(user),1);
 }

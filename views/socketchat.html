@@ -19,39 +19,55 @@
     <!-- Scripts -->
     <!--<script src="/socket.io/socket.io.js"></script>-->
     <script src="/socketchat.js"></script>
+    <script src="/socketchatDto.js"></script>
 
     <!-- Loaded-Scripts-->
 
 </head>
 <body>
 <header class="header">
-
+    <span>Crazy Chat</span>
 </header>
 <main class="main">
-    <div class="list-container">
-        <div class="lobby-list">
+    <div class="lobby-list" data-bind="foreach:{data: $root.lobbys , as: 'lobby'}">
 
-        </div>
-        <div class="message-list">
-
-        </div>
     </div>
-    <div class="send-form">
-        <form>
-            <fieldset>
-                <label>Username:</label>
-                <input data-bind="textInput: $root.user" placeholder="Username"/>
-            </fieldset>
-            <fieldset>
-                <label></label>
-                <textarea data-bind="textInput: $root.messageContent" placeholder="Content"></textarea>
-            </fieldset>
-            <button data-bind="click: $root.sendLobbyMessage">Senden</button>
-        </form>
+    <div class="lobby-container">
+        <div class="message-list" data-bind="foreach:{data: $root.lobbyMessages , as: 'message'}">
+            <div>
+                <span data-bind="text: message.username"></span>
+                <span data-bind="text: message.content"></span>
+            </div>
+        </div>
+        <div class="send-form-container">
+            <form class="send-form">
+                <fieldset class="username-container">
+                    <label>Username:</label>
+                    <input data-bind="textInput: $root.username" placeholder="Username"/>
+                </fieldset>
+                <fieldset class="lobby-message-box-container">
+                    <label></label>
+                    <textarea class="lobby-message-box" data-bind="textInput: $root.lobbyMessageContent" placeholder="Content"></textarea>
+                </fieldset>
+                <button class="send-button" data-bind="click: $root.sendLobbyMessage, enable: $root.canSendLobbyMessage">Senden</button>
+            </form>
+        </div>
     </div>
 </main>
 <footer class="footer">
 
 </footer>
+<div class="login-container" data-bind="visible: $root.isLoginFormVisible">
+    <form class="login-form">
+        <fieldset class="login-username-container">
+            <label class="login-label-username">Username</label>
+            <div>
+                <input class="login-username" data-bind="textInput: $root.loginName" placeholder="Username"/>
+                <div class="login-username-check" data-bind=""></div>
+            </div>
+        </fieldset>
+        <button class="login-button" data-bind="click: $root.login">Login</button>
+    </form>
+</div>
 </body>
 </html>

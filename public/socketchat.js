@@ -8,14 +8,37 @@ function SocketChatViewModel(){
     //Private
     var socket;
 
-    //Public - Bindings
-    self.messages = ko.observableArray();
 
-    self.user = ko.observable();
-    self.messageContent = ko.observable();
+    var canSend = function(){
+        return (null != self.username() && null != self.username().trim() )
+            && (null != self.lobbyMessageContent() && null != self.lobbyMessageContent().trim() )
+    };
+
+
+    //Public - Bindings
+    //Login
+    self.isLoginFormVisble  = ko.observable(false);
+    self.loginName = ko.observable('');
+    self.isLoginNameUnique = ko.observable(false);
+
+    //Chat
+    self.lobbys = ko.observableArray();
+    self.lobbyMessages = ko.observableArray();
+    self.lobbyUser = ko.observableArray();
+
+    self.username = ko.observable();
+    self.lobbyMessageContent = ko.observable();
+    self.canSendLobbyMessage = ko.computed(function () {
+        return canSend();
+    });
+
+    self.loginCheck = function(){
+
+    };
 
     self.login = function(){
-
+        var loginDto = new LoginDto(self.loginName());
+        socket.emit('login', loginDto);
     };
 
     self.joinLobby = function(){
@@ -24,19 +47,28 @@ function SocketChatViewModel(){
     self.leaveLobby = function(){
         socket.emit('lobby leave',message);
     };
+    self.switchLobby = function(){
+        socket.emit('lobby leave',message);
+    };
     self.sendLobbyMessage= function () {
-        var message = { "user": self.user(), "content": self.messageContent()};
-        socket.emit('lobby message',message);
+        var lobbyMessageDto = new LobbyMessageDto(self.username(), self.lobbyMessageContent());
+        socket.emit('lobby message',lobbyMessageDto);
+        self.lobbyMessageContent(null);
     };
 
     self.init = function(){
         socket = io();
-        // Add a connect listener
+
         socket.on('connect', function(socket) {
             console.log('Connected!');
         });
         socket.on('disconnect',function () {
             console.log('Disconnected!');
+        });
+
+        socket.on('lobby message',function (lobbyMessageDto) {
+            var lobbyMessage = {'username': lobbyMessageDto.username,'content':lobbyMessageDto.content};
+            self.lobbyMessages.push(lobbyMessage);
         })
     };
 
@@ -44,6 +76,6 @@ function SocketChatViewModel(){
 
 $(document).ready(function(){
     viewmodel = new SocketChatViewModel();
-    ko.applyBindings(viewmodel);
     viewmodel.init();
+    ko.applyBindings(viewmodel);
 });

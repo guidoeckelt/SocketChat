@@ -6,11 +6,19 @@
     --body-height:                          100vh;
     --header-height:                        50px;
     --main-height:                          calc(var(--body-height) - var(--header-height));
+
+    --font-family:                          Arial, sans-serif;
+
+    --blurred-background:                   rgba(0,0,0,0.6);
+    --login-background:                     #ffffff;
+    --login-radius:                         10px;
 }
 body{
     width:100%;
     height:100%;
     height: var(--body-height);
+
+    overflow: hidden;
 }
 .header{
     width:100%;
@@ -26,26 +34,149 @@ body{
     height: var(--main-height);
 
     display: flex;
-    flex-flow:  column nowrap;
+    flex-flow: row nowrap;
 
     margin-top: var(--header-height);
 }
-.list-container{
+.lobby-list{
+    width: 30%;
+    max-width:  300px;
+    flex-grow: 1;
+
+    background: #fec0e1;
+
+}
+.lobby-container{
+    width: 70%;
 
     flex-grow: 2;
 
     display: flex;
-    flex-flow:  row nowrap;
-
-}
-.lobby-list{
-    width: 30%;
+    flex-flow: column nowrap;
 
 }
 .message-list{
-    width: 70%;
+    width: 100%;
+    flex-grow: 1;
+
+    background: #2dcebd;
 }
-.send-form{
+.send-form-container{
     width: 100%;
     height: auto;
+    max-height:     300px;
+
+}
+.send-form{
+    max-width: inherit;
+    max-height: inherit;
+
+    display:flex;
+    flex-flow: row nowrap;
+}
+.username-container{
+    width: 20%;
+    max-width: 300px;
+
+    border: none;
+}
+.lobby-message-box-container{
+    width: 70%;
+    max-width: 70%;
+    max-height: inherit;
+    flex-grow: 1;
+
+    border: none;
+}
+.lobby-message-box{
+    width: 100%;
+    height: 100%;
+    max-width: 100%;
+    max-height: inherit;
+
+}
+.send-button{
+    width: 10%;
+    max-width: 10%;
+}
+.login-container{
+    width:100%;
+    height:100%;
+
+    background: var(--blurred-background);
+
+    display:flex;
+    flex-flow: row nowrap;
+    justify-content: center;
+    align-items: center;
+
+    position: fixed;
+    top:0;
+    left:0;
+}
+.login-form{
+    background: var(--login-background);
+
+    border: 5px solid #000000;
+    border-radius: var(--login-radius);
+
+    display:flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+    align-items: center;
+
+    padding: 20px;
+}
+.login-username-container{
+
+    border: none;
+
+    display:flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+    align-items: center;
+
+    margin-bottom: 10px;
+}
+.login-label-username{
+
+    color: #000000;
+    font-size: 20px;
+    font-weight: 600;
+    font-family:var(--font-family);
+    font-style: normal;
+
+}
+.login-username{
+
+    background: transparent;
+
+    border:none;
+    border-bottom:  3px solid #000000;
+
+    color: #000000;
+    font-size: 20px;
+    font-weight: 600;
+    font-family:var(--font-family);
+    font-style: normal;
+
+    padding: 5px 15px;
+}
+.login-username-check{
+
+}
+.login-button{
+    width: 100%;
+
+    background: #000000;
+
+    border: none;
+
+    color: #ffffff;
+    font-size: 20px;
+    font-weight: 600;
+    font-family:var(--font-family);
+    font-style: normal;
+
+    padding: 5px 15px;
 }
